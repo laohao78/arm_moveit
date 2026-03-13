@@ -1,0 +1,24 @@
+controller_manager_ns: controller_manager
+controller_list:
+  - name: thth0110/arm_joint_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    default: true
+    joints:
+      - j1
+      - j2
+      - j3
+      - j4
+      - j5
+      - j6
+      - j7
+
+  - name: thth0110/gripper_joint_controller
+    action_ns: follow_joint_trajectory
+    type: FollowJointTrajectory
+    default: true
+    joints:
+      - j8
+
+
+

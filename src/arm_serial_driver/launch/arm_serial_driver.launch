@@ -1,0 +1,16 @@
+<launch>
+  <!-- ==============================
+       真实机械臂控制：MoveIt + 串口驱动
+       ============================== -->
+
+  <!-- 启动你的串口驱动节点 -->
+  <node name="arm_serial_driver_node" pkg="arm_serial_driver" type="arm_serial_driver_node" output="screen">
+    <!-- 从 YAML 加载参数 -->
+    <rosparam file="$(find arm_serial_driver)/config/driver_params.yaml" command="load" />
+  </node>
+
+  <!-- 启动 MoveIt 到串口的桥接节点 -->
+  <node name="moveit_to_serial_bridge" pkg="arm_serial_driver" type="moveit_to_serial_bridge" output="screen">
+  </node>
+
+</launch>

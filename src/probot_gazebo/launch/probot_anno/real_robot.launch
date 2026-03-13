@@ -1,0 +1,25 @@
+<launch>
+    <!-- ========== 1. URDF ========== -->
+    <param name="robot_description" 
+           command="$(find xacro)/xacro '$(find thth0110)/urdf/thth0110.xacro'" />
+
+    <!-- ========== 2. 你的串口驱动（发布 /joint_states） ========== -->
+    <!-- ========== 3. 你的 MoveIt 桥接节点（Action Server） ========== -->
+    <!-- 我另外启动 -->
+
+    <!-- ========== 4. TF 发布（读取 /joint_states） ========== -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+    <!-- ========== 5. MoveIt 核心 ========== -->
+    <include file="$(find thth0110_MoveitConfig)/launch/move_group.launch">
+        <arg name="allow_trajectory_execution" value="true" />
+        <arg name="moveit_controller_manager" value="simple" /> <!-- 使用 simple_moveit_controllers.yaml -->
+        <arg name="publish_monitored_planning_scene" value="true" />
+    </include>
+
+    <!-- ========== 6. RViz（可选） ========== -->
+    <include file="$(find thth0110_MoveitConfig)/launch/moveit_rviz.launch">
+        <arg name="config" value="true" />
+    </include>
+
+</launch>

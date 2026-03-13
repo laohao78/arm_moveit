@@ -1,0 +1,79 @@
+<launch>
+  
+<!-- Launch Gazebo  
+<include file="$(find probot_gazebo)/launch/probot_anno/probot_anno_gazebo_world.launch" />
+-->
+
+    <!-- these are the arguments you can pass this launch file, for example paused:=true -->
+    <arg name="paused" default="false"/>
+    <arg name="use_sim_time" default="true"/>
+    <arg name="gui" default="true"/>
+    <arg name="headless" default="false"/>
+    <arg name="debug" default="false"/>
+
+    <!-- We resume the logic in empty_world.launch -->
+    <include file="$(find gazebo_ros)/launch/empty_world.launch">
+      <arg name="debug" value="$(arg debug)" />
+      <arg name="gui" value="$(arg gui)" />
+      <arg name="paused" value="$(arg paused)"/>
+      <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+      <arg name="headless" value="$(arg headless)"/>
+    </include>
+
+    <!-- Load the URDF into the ROS Parameter Server -->
+    <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find thth0110)/urdf/thth0110.xacro'" /> 
+
+
+    <!-- Run a python script to the send a service call to gazebo_ros to spawn a URDF robot -->
+    <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+    args="-urdf -model thth0110 -param robot_description"/> 
+
+
+<!-- ros_control arm launch file 
+<include file="$(find probot_gazebo)/launch/probot_anno/probot_anno_gazebo_states.launch" />   
+-->
+
+    <!-- 将关节控制器的配置参数加载到参数服务器中 -->
+    <rosparam file="$(find probot_gazebo)/config/probot_anno_gazebo_joint_states.yaml" command="load"/>
+
+    <node name="joint_controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+          output="screen" ns="/thth0110" args="joint_state_controller" />
+
+    <!-- 运行robot_state_publisher节点，发布tf  -->
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+        respawn="false" output="screen">
+        <remap from="/joint_states" to="/thth0110/joint_states" />
+    </node>
+
+<!-- ros_control trajectory control dof arm launch file 
+<include file="$(find probot_gazebo)/launch/probot_anno/probot_anno_trajectory_controller.launch" />
+-->
+
+    <rosparam file="$(find probot_gazebo)/config/probot_anno_trajectory_control.yaml" command="load"/>
+
+    <node name="arm_controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+          output="screen" ns="/thth0110" args="arm_joint_controller gripper_joint_controller "/>
+
+<!-- moveit launch file 
+<include file="$(find thth0110_MoveitConfig)/launch/moveit_planning_execution.launch" />
+-->
+
+    # The planning and execution components of MoveIt! configured to 
+    # publish the current configuration of the robot (simulated or real)
+    # and the current state of the world as seen by the planner
+    <include file="$(find thth0110_MoveitConfig)/launch/move_group.launch">
+    <arg name="publish_monitored_planning_scene" value="true" />
+    </include>
+
+    # The visualization component of MoveIt!
+    <include file="$(find thth0110_MoveitConfig)/launch/moveit_rviz.launch">
+    <arg name="config" value="true" />
+    </include>
+
+    <!-- We do not have a robot connected, so publish fake joint states -->
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+      <param name="/use_gui" value="false"/> 
+      <rosparam param="/source_list">[/thth0110/joint_states]</rosparam>
+    </node>
+
+</launch>

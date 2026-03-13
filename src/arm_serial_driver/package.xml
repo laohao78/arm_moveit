@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>arm_serial_driver</name>
+  <version>0.1.0</version>
+  <description>Serial driver for 8-DOF arm (6 joints + gripper + linear)</description>
+
+  <maintainer email="you@example.com">Your Name</maintainer>
+  <license>MIT</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <!-- 构建时需要 serial 包（头文件、库） -->
+  <build_depend>serial</build_depend>
+  <build_depend>roscpp</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <build_depend>message_generation</build_depend>
+
+  <!-- 运行时需要 serial 包（动态库） -->
+  <exec_depend>serial</exec_depend>
+  <exec_depend>roscpp</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
+  <exec_depend>sensor_msgs</exec_depend>
+  <exec_depend>message_runtime</exec_depend>
+</package>

@@ -1,0 +1,11 @@
+moveit_setup_assistant_config:
+  URDF:
+    package: thth0110
+    relative_path: urdf/thth0110.xacro
+    xacro_args: ""
+  SRDF:
+    relative_path: config/thth0110.srdf
+  CONFIG:
+    author_name: thth
+    author_email: 3132@qq.com
+    generated_timestamp: 1768218430

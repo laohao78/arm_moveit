@@ -1,0 +1,17 @@
+# Build results
+build/
+devel/
+*.log
+
+# Catkin workspace marker
+.catkin_workspace
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
