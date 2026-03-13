@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<robot name="realsense2_camera" xmlns:xacro="http://ros.org/wiki/xacro">
+  <xacro:arg name="use_nominal_extrinsics" default="false"/>
+  <xacro:include filename="$(find realsense2_description)/urdf/_d455.urdf.xacro" />
+  
+  <link name="base_link" />
+  <xacro:sensor_d455 parent="base_link" use_nominal_extrinsics="$(arg use_nominal_extrinsics)">
+    <origin xyz="0 0 0" rpy="0 0 0"/>
+  </xacro:sensor_d455>
+
+  <!-- Gazebo plugin for depth camera -->
+  <gazebo reference="camera_link">
+    <sensor type="depth" name="d455_depth">
+      <update_rate>30.0</update_rate>
+      <camera>
+        <horizontal_fov>1.658</horizontal_fov> <!-- ～95 deg -->
+        <image>
+          <width>1280</width>
+          <height>720</height>
+          <!-- 移除 format，让插件自动处理 RGB 和 Depth -->
+        </image>
+        <clip>
+          <near>0.4</near>
+          <far>10.0</far>
+        </clip>
+      </camera>
+      <plugin name="depth_controller" filename="libgazebo_ros_openni_kinect.so">
+        <cameraName>d455</cameraName>
+        <imageTopicName>/camera/color/image_raw</imageTopicName>
+        <depthImageTopicName>/camera/depth/image_raw</depthImageTopicName>
+        <pointCloudTopicName>/camera/depth/points</pointCloudTopicName>
+        <cameraInfoTopicName>/camera/color/camera_info</cameraInfoTopicName>
+        <depthImageCameraInfoTopicName>/camera/depth/camera_info</depthImageCameraInfoTopicName>
+        <frameName>camera_depth_optical_frame</frameName>
+        <!-- baseline, distortion 参数可省略 -->
+        <pointCloudCutoff>0.4</pointCloudCutoff>
+        <pointCloudCutoffMax>10.0</pointCloudCutoffMax>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+
+</robot>

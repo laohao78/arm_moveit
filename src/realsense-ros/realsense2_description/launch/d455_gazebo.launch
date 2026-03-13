@@ -1,0 +1,23 @@
+<!-- d455_gazebo.launch -->
+<launch>
+  <!-- 启动 Gazebo 空世界 -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="paused" value="false"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui" value="true"/>
+  </include>
+
+  <!-- 关键：启用 Gazebo 插件！ -->
+  <param name="robot_description"
+         command="$(find xacro)/xacro 
+                   $(find realsense2_description)/urdf/test_d455_gazebo.urdf.xacro
+                   use_gazebo:=true" />
+
+  <!-- Spawn 到 Gazebo -->
+  <node name="spawn_d455" pkg="gazebo_ros" type="spawn_model"
+        args="-urdf -param robot_description -model d455_camera -z 0.5" />
+
+  <!-- 发布 TF -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+</launch>
