@@ -349,13 +349,13 @@ sudo apt-get install ros-noetic-moveit ros-noetic-gazebo-ros-control \
 
 ## 📝 许可证
 
-[添加您的许可证信息]
+[NULL]
 
 ---
 
 ## 👤 贡献者
 
-[添加贡献者信息]
+[NULL]
 
 ---
 
