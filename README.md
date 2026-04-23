@@ -1,5 +1,9 @@
 # THTH0110 机械臂 - ROS 控制系统
 
+<p align="center">
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-yellow.svg" alt="License: MIT"></a>
+</p>
+
 ## 📋 项目概述
 
 这是一个基于ROS的可编程工业机械臂控制系统，集成了**运动规划（MoveIt）**、**Gazebo仿真**、**串口驱动**和**视觉感知**（RealSense）。系统支持：
