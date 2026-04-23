@@ -349,13 +349,24 @@ sudo apt-get install ros-noetic-moveit ros-noetic-gazebo-ros-control \
 
 ## 📝 许可证
 
-[NULL]
+本项目采用 **MIT 许可证**。详见 [LICENSE](LICENSE) 文件。
+
+### 许可证摘要
+
+你可以自由地：
+- ✅ 使用本软件进行商业或私人目的
+- ✅ 修改本软件
+- ✅ 分发本软件
+- ✅ 私下使用本软件
+
+条件是：
+- ⚠️ 在副本或重要部分中包含许可证和版权声明
 
 ---
 
 ## 👤 贡献者
 
-[NULL]
+欢迎提交Issue和Pull Request！
 
 ---
 
